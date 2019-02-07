@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 /**
  * Turns a canvas element into an interactive draggable 3d image viewer
  * @param {Array<String>} imageSources array of image urls to load 
@@ -101,12 +102,13 @@ CanvasSpinner.prototype.demo = function () {
     }, 25)
   }
 }
+
 /**
  * asynchronously loads an image
  * @param {String} url url of image to load
  * @return {Promise<ImageBitmap>} Promise that resolves to image ready for use
  */
-async function getImg(url) {
+CanvasSpinner.prototype.getImg = async function (url) {
   let res = await fetch(url)
   let blob = await res.blob()
   return createImageBitmap(blob)
