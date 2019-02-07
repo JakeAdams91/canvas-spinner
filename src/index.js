@@ -40,7 +40,7 @@ function CanvasSpinner(imageSources, canvas, demo = false) {
  * Handle promises to load the images
  */
 CanvasSpinner.prototype.loadImages = function () {
-  Promise.all(this.imgSrcs.map(getImg))
+  Promise.all(this.imgSrcs.map(this.getImg))
     .then(imgs => this.setImgsAfterLoad(imgs))
 }
 /**
