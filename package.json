@@ -1,0 +1,26 @@
+{
+  "name": "canvas-spinner",
+  "version": "0.1.0",
+  "description": "3d product viewer written in vanilla Js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakeAdams91/canvas-spinner.git"
+  },
+  "keywords": [
+    "product",
+    "viewer",
+    "3d",
+    "canvas",
+    "vanilla"
+  ],
+  "author": "Jake Adams and Ruben Gallegos",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JakeAdams91/canvas-spinner/issues"
+  },
+  "homepage": "https://github.com/JakeAdams91/canvas-spinner#readme"
+}
