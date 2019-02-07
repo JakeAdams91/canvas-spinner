@@ -26,4 +26,10 @@ pass canvas-spinner the following params:
 
 **Key contributors:**
 
-@juegoman
+[@juegoman](https://github.com/juegoman)
+
+
+
+
+**License**
+The MIT License (MIT)
