@@ -75,6 +75,22 @@ CanvasSpinner.prototype.update = function (direction) {
   }
 }
 /**
+ * update current frame to passed in value, and re-render image
+ * @param {Number} frame index of user selected frame
+ */
+CanvasSpinner.prototype.setFrame = function (frame) {
+  if (this.loaded) {
+    if (frame < 0 || frame >= this.totalFrames) {
+      throw new Error('param frame out of bounds')
+    }
+    this.currentFrame = frame
+    this.canvasContext.drawImage(this.currentImg, 0, 0)
+  }
+}
+
+
+
+/**
  * event handler for mousemove, gets X direction of movement then calls update with direction
  * @param {Event} event event from mousemove
  */
