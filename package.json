@@ -1,6 +1,6 @@
 {
   "name": "canvas-spinner",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "3d product viewer written in vanilla Js",
   "main": "lib/index.js",
   "scripts": {
