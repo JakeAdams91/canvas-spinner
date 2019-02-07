@@ -4,7 +4,7 @@
  * @param {HTMLCanvasElement} canvas canvas element to control
  * @param {Boolean} demo whether to do a spin demo when the images load
  */
-function ThreeDViewer(imageSources, canvas, demo = false) {
+function CanvasSpinner(imageSources, canvas, demo = false) {
   this.imgSrcs = imageSources
   this.canvas = canvas
   this.imgs = []
@@ -38,14 +38,14 @@ function ThreeDViewer(imageSources, canvas, demo = false) {
 /**
  * Handle promises to load the images
  */
-ThreeDViewer.prototype.loadImages = function () {
+CanvasSpinner.prototype.loadImages = function () {
   Promise.all(this.imgSrcs.map(getImg))
     .then(imgs => this.setImgsAfterLoad(imgs))
 }
 /**
  * @param {Array<ImageBitmap>} imgs array of processed image bitmaps
  */
-ThreeDViewer.prototype.setImgsAfterLoad = function (imgs) {
+CanvasSpinner.prototype.setImgsAfterLoad = function (imgs) {
   this.imgs = imgs
   this.loaded = true
   // fit the canvas
@@ -61,7 +61,7 @@ ThreeDViewer.prototype.setImgsAfterLoad = function (imgs) {
  * increments or decrements the drawn image and updates it on the canvas
  * @param {Number} direction direction to update image, -1 if left, 1 if right, 0 just updates the current image
  */
-ThreeDViewer.prototype.update = function (direction) {
+CanvasSpinner.prototype.update = function (direction) {
   if (this.loaded) {
     this.currentFrame += direction
     if (this.currentFrame < 0) {
@@ -77,7 +77,7 @@ ThreeDViewer.prototype.update = function (direction) {
  * event handler for mousemove, gets X direction of movement then calls update with direction
  * @param {Event} event event from mousemove
  */
-ThreeDViewer.prototype.handleMouseMove = function (event) {
+CanvasSpinner.prototype.handleMouseMove = function (event) {
   if (this.loaded && this.clicked) {
     let tracker = event.movementX
     if (tracker > 0) {
@@ -90,7 +90,7 @@ ThreeDViewer.prototype.handleMouseMove = function (event) {
 /**
  * initializes the canvas and iterates through the images
  */
-ThreeDViewer.prototype.demo = function () {
+CanvasSpinner.prototype.demo = function () {
   if (this.loaded) {
     this.update(0)
     let rotationInterval = setInterval(() => {
@@ -111,4 +111,4 @@ async function getImg(url) {
   let blob = await res.blob()
   return createImageBitmap(blob)
 }
-export { ThreeDViewer, ThreeDViewer as default }
+export { CanvasSpinner, CanvasSpinner as default }
