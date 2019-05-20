@@ -1,4 +1,3 @@
-import 'babel-polyfill'
 /**
  * Turns a canvas element into an interactive draggable 3d image viewer
  * @param {Array<String>} imageSources array of image urls to load 
