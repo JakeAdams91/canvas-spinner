@@ -124,8 +124,18 @@ CanvasSpinner.prototype.demo = function () {
  * @return {Promise<ImageBitmap>} Promise that resolves to image ready for use
  */
 CanvasSpinner.prototype.getImg = async function (url) {
-  let res = await fetch(url)
-  let blob = await res.blob()
-  return createImageBitmap(blob)
+  let loadingImg = true
+  let bitmap, res, blob
+  while (loadingImg) {
+    res = await fetch(url)
+    blob = await res.blob()
+    try {
+      bitmap = await createImageBitmap(blob)
+      loadingImg = false
+    } catch (e) {
+      console.error('error generating bitmap', url, ' trying again...')
+    }
+  }
+  return bitmap
 }
 export { CanvasSpinner, CanvasSpinner as default }
