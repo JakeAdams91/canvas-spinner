@@ -47,8 +47,12 @@ function CanvasSpinner(imageSources, canvas, demo = false) {
   })
   // catches mouse events and calls necessary functions
   this.canvas.addEventListener("mousedown", e => { this.clicked = true }, false)
-  this.canvas.addEventListener("mousemove", e => { this.handleMouseMove(e) }, false)
-  this.canvas.addEventListener("mouseup", e => { this.clicked = false })
+  document.addEventListener("mousemove", e => { this.handleMouseMove(e) }, false)
+  document.addEventListener("mouseup", e => {
+    if (this.clicked) {
+      this.clicked = false
+    }
+  })
   // touch handling
   this.canvas.addEventListener("touchstart", e => {
     e.preventDefault()
