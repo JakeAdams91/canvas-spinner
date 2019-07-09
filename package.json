@@ -1,6 +1,6 @@
 {
   "name": "canvas-spinner",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "3d product viewer written in vanilla Js",
   "main": "lib/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "url": "https://github.com/JakeAdams91/canvas-spinner/issues"
   },
   "homepage": "https://github.com/JakeAdams91/canvas-spinner#readme",
-  "dependencies": {
+  "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0"
