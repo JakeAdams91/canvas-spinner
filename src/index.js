@@ -1,3 +1,18 @@
+/* Safari and Edge polyfill for createImageBitmap
+ * https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/createImageBitmap
+ */
+if (!('createImageBitmap' in window)) {
+  window.createImageBitmap = async function (blob) {
+    return new Promise(resolve => {
+      let img = document.createElement('img')
+      img.addEventListener('load', function () {
+        resolve(this)
+      })
+      img.src = URL.createObjectURL(blob)
+    })
+  }
+}
+
 /**
  * Turns a canvas element into an interactive draggable 3d image viewer
  * @param {Array<String>} imageSources array of image urls to load 
@@ -12,6 +27,7 @@ function CanvasSpinner(imageSources, canvas, demo = false) {
   this.currentFrame = 0
   this.clicked = false
   this.doDemo = demo
+  this.lastTouchX = null
   Object.defineProperties(this, {
     'currentImg': {
       get: function () {
@@ -31,16 +47,23 @@ function CanvasSpinner(imageSources, canvas, demo = false) {
   })
   // catches mouse events and calls necessary functions
   this.canvas.addEventListener("mousedown", e => { this.clicked = true }, false)
-  document.addEventListener("mousemove", e => {
-    if (this.clicked === true) {
-      this.handleMouseMove(e)
-    }
+  this.canvas.addEventListener("mousemove", e => { this.handleMouseMove(e) }, false)
+  this.canvas.addEventListener("mouseup", e => { this.clicked = false })
+  // touch handling
+  this.canvas.addEventListener("touchstart", e => {
+    e.preventDefault()
+    this.clicked = true
+    this.lastTouchX = e.changedTouches[0].screenX
   }, false)
-  document.addEventListener("mouseup", e => { 
-    if (this.clicked === true) {
-      this.clicked = false
-    }
-  })
+  this.canvas.addEventListener("touchmove", e => {
+    e.preventDefault()
+    this.handleTouchMove(e)
+  }, false)
+  this.canvas.addEventListener("touchend", e => {
+    e.preventDefault();
+    this.clicked = false
+    this.lastTouchX = null
+  }, false)
   this.loadImages()
 }
 /**
@@ -73,9 +96,9 @@ CanvasSpinner.prototype.update = function (direction) {
   if (this.loaded) {
     this.currentFrame += direction
     if (this.currentFrame < 0) {
-      this.currentFrame = this.totalFrames - 1
+      this.currentFrame = this.totalFrames + this.currentFrame
     } else if (this.currentFrame > this.totalFrames - 1) {
-      this.currentFrame = 0
+      this.currentFrame = this.currentFrame - this.totalFrames
     }
 
     this.canvasContext.drawImage(this.currentImg, 0, 0)
@@ -111,6 +134,24 @@ CanvasSpinner.prototype.handleMouseMove = function (event) {
     }
   }
 }
+
+/**
+ * event handler for touchmove, gets X direction of movement then calls update with direction
+ * @param {Event} event event from touchmove
+ */
+CanvasSpinner.prototype.handleTouchMove = function (event) {
+  if (this.loaded && this.clicked) {
+    let touch = event.changedTouches[0]
+    let touchDelta = this.lastTouchX - touch.screenX
+    if (touchDelta > 0) {
+      this.update(1)
+    } else if (touchDelta < 0) {
+      this.update(-1)
+    }
+    this.lastTouchX = touch.screenX
+  }
+}
+
 /**
  * initializes the canvas and iterates through the images
  */
