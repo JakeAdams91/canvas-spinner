@@ -39,8 +39,9 @@ pass canvas-spinner the following params:
 
 
 **Key contributors:**
-
+[@JakeAdams91](https://github.com/JakeAdams91)
 [@juegoman](https://github.com/juegoman)
+[@JosephCorralesWeb](https://github.com/JosephCorralesWeb)
 
 
 
